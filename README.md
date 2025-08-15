@@ -15,11 +15,6 @@ Enhances Synastria base interfaces.
 2. Enable in-game addon menu
 3. Works automatically when you open Resource Bank or LootDB
 
-## Requirements
-
-- Resource Bank addon (for bank enhancements)
-- LootDB addon (for item database enhancements)
-
 ## License
 
 MIT
