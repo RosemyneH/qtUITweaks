@@ -1,17 +1,23 @@
 --[[
 ================================================================================
- Project:       [PROJECT NAME]
- File:          [FILENAME]
+ Project:       qtUITweaks
+ File:          itemDB.lua
  License:       MIT
 
  Description:
-   [BRIEF DESCRIPTION OF WHAT THIS FILE DOES]
+   Enhances the LootDB addon UI by adding item icons to database entries,
+   enabling mouse wheel scrolling, and improving search functionality.
+   Provides visual item identification with tooltips and shift-click linking.
 
  Usage:
-   [EXAMPLE COMMAND OR FUNCTION CALL]
+   Load this file as part of qtUITweaks addon. The enhancements will
+   automatically apply when the LootDBFrame is opened.
 
  Notes:
-   [OPTIONAL: IMPORTANT IMPLEMENTATION NOTES OR DEPENDENCIES]
+   - Icons are positioned to the left of each database entry
+   - Tooltips show full item information on hover
+   - ESC key clears search box focus
+   - Uses GetItemInfoCustom for automatic caching
 ================================================================================
 ]]
 local ICON_SIZE = 18
@@ -57,114 +63,3 @@ local function StyleButton(btn)
         -- Hide icon if no ItemId
         btn.myIcon:Hide()
     end
-end
-
----
--- Main setup frame: Hooks everything together.
----
-local f = CreateFrame("Frame")
-f:SetScript("OnUpdate", function(self)
-    local lootFrame = _G["LootDBFrame"]
-    if not lootFrame then return end
-
-    -- Hook every potential item line's OnShow event.
-    for i = 1, maxButtons do
-        local btn = _G["LootDBFrame-ILine-" .. i]
-        if btn and not btn._styleHooked then
-            btn:HookScript("OnShow", StyleButton)
-            btn._styleHooked = true
-        end
-    end
-
-    -- Function to refresh all visible buttons
-    local function RefreshAllButtons()
-        for i = 1, maxButtons do
-            local btn = _G["LootDBFrame-ILine-" .. i]
-            if btn and btn:IsShown() then
-                StyleButton(btn)
-            end
-        end
-    end
-
-    lootFrame:HookScript("OnShow", RefreshAllButtons)
-
-    local searchBox = _G["LootDBFrame-Search"]
-    if searchBox and not searchBox._searchHooked then
-        searchBox:HookScript("OnTextChanged", RefreshAllButtons)
-        
-        -- Fix enter key override - allow normal typing when hovering
-        searchBox:HookScript("OnEnter", function(self)
-            self:EnableKeyboard(true)
-        end)
-        
-        searchBox:HookScript("OnLeave", function(self)
-            self:EnableKeyboard(false)
-        end)
-        
-        searchBox:HookScript("OnKeyDown", function(self, key)
-	    if key == "ESCAPE" then
-		self._escPressed = true
-		self:ClearFocus()
-		self:EnableKeyboard(false)
-	    end
-	end)
-
-	-- Prevent refocus after ESC
-	searchBox:HookScript("OnEditFocusGained", function(self)
-	    if self._escPressed then
-		self._escPressed = false
-		self:ClearFocus()
-		return
-	    end
-	    self:EnableKeyboard(true)
-	end)
-        
-        -- Disable keyboard when losing focus
-        searchBox:HookScript("OnEditFocusLost", function(self)
-            self:EnableKeyboard(false)
-        end)
-        
-        searchBox:HookScript("OnKeyUp", function(self, key)
-	    if key == "ESCAPE" then
-		self:ClearFocus()
-		self:EnableKeyboard(false)
-	    end
-	end)
-        searchBox._searchHooked = true
-    end
-
-    local filterButton = _G["LootDBFrame-FilterButton"] or _G["LootDBFrameFilterButton"]
-    if filterButton and not filterButton._filterHooked then
-        filterButton:HookScript("OnClick", RefreshAllButtons)
-        filterButton._filterHooked = true
-    end
-
-    local scrollBar = _G["LootDBFrame-Slider1"] or _G["LootDBFrame-Scrollable1ScrollBar"]
-    if scrollBar and not scrollBar._scrollHooked then
-        scrollBar:HookScript("OnValueChanged", RefreshAllButtons)
-        scrollBar._scrollHooked = true
-    end
-
-    local parent = _G["LootDBFrame-Scrollable1"]
-    if parent and not parent._wheelOverlay then
-        local overlay = CreateFrame("Frame", nil, parent)
-        overlay:SetAllPoints(true)
-        overlay:EnableMouseWheel(true)
-
-        overlay:SetScript("OnMouseWheel", function(_, delta)
-            if not scrollBar then return end
-
-            local current = scrollBar:GetValue()
-            local step = 20
-
-            if delta > 0 then
-                scrollBar:SetValue(current - step)
-            else
-                scrollBar:SetValue(current + step)
-            end
-        end)
-        parent._wheelOverlay = overlay
-    end
-
-    self:SetScript("OnUpdate", nil)
-end)
