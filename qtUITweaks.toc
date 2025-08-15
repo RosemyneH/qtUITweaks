@@ -1,0 +1,10 @@
+## Interface: 30300
+## Title: |cFFDBF3FAqtUITweaks|r
+## Notes: Random QT tweaks about various UI elements
+## Author: Qt
+## Version: 1
+## SavedVariables:
+## SavedVariablesPerCharacter:
+
+core.lua
+synastria\resourceBank.lua
