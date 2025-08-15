@@ -14,4 +14,3 @@
    [OPTIONAL: IMPORTANT IMPLEMENTATION NOTES OR DEPENDENCIES]
 ================================================================================
 ]]
--- Define the size for the icons we will add.
