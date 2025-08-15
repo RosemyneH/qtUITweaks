@@ -1,0 +1,69 @@
+# Private Keys and Certificates
+git
+git.pub
+*.key
+*.pem
+*.p12
+*.pfx
+*.crt
+*.cer
+*.der
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+id_ecdsa
+id_ecdsa.pub
+*.ppk
+
+# SSH and GPG
+.ssh/
+.gnupg/
+known_hosts
+authorized_keys
+
+# Environment and Config Files
+.env
+.env.local
+.env.production
+.env.staging
+config.local.*
+secrets.*
+credentials.*
+
+# API Keys and Tokens
+*api_key*
+*secret*
+*token*
+*password*
+auth.json
+.credentials
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+log/
+
+# Temporary Files
+*.tmp
+*.temp
+*~
+.DS_Store
+Thumbs.db
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Backup Files
+*.bak
+*.backup
+*.old
