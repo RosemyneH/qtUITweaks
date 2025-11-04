@@ -23,7 +23,7 @@ local maxButtons = 100
 
 local function StyleButton(btn)
     if btn.ItemId then
-        local iconTexture = select(10, GetItemInfo(btn.ItemId))
+        local iconTexture = select(10, GetItemInfoCustom(btn.ItemId))
 
         if iconTexture then
             -- Check if our custom icon texture exists on this button yet.
@@ -44,7 +44,7 @@ local function StyleButton(btn)
         if not btn._tooltipHooked then
             btn:HookScript("OnEnter", function(self)
                 GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-                local _, itemLink = GetItemInfo(self.ItemId)
+                local _, itemLink = GetItemInfoCustom(self.ItemId)
                 if itemLink then
                     GameTooltip:SetHyperlink(itemLink)
                 else
