@@ -2,7 +2,7 @@
 ## Title: |cFFDBF3FAqtUITweaks|r
 ## Notes: Random QT tweaks about various UI elements
 ## Author: Qt
-## Version: 1
+## Version: 1.2
 ## SavedVariables:
 ## SavedVariablesPerCharacter:
 
